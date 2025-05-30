@@ -43,7 +43,7 @@ export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
 
       <YStack gap="$4">
         <H1 text="center" color="$color12">
-          Welcome to Tamagui.
+          Welcome to Tamagu.
         </H1>
         <Paragraph color="$color10" text="center">
           Here's a basic starter to show navigating from one screen to another.
