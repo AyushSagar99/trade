@@ -12,11 +12,12 @@ import {
   Avatar,
   Card,
 } from '@my/ui'
-import { ChevronLeft, MessageCircle, Eye, WheatOff, Twitter, Heart, MoveLeft } from '@tamagui/lucide-icons'
+import { ChevronLeft, MessageCircle, Eye, WheatOff, Twitter, Heart, MoveLeft, ArrowLeft } from '@tamagui/lucide-icons'
 import { useState } from 'react'
 import { Platform } from 'react-native'
 import AssetImage from '../../components/AssetImages'
 import ProductCarousel from '../../components/ProductCarousel'
+import { LinearGradient } from '@tamagui/linear-gradient'
 
 // Import assets for native
 import drySpicesIcon from '../../assets/dryspices.png'
@@ -102,9 +103,10 @@ export function CompanyProfileScreen() {
           id: '1',
           name: 'Black Pepper',
           images: [
-            'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=200&fit=crop',
-            'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=300&h=200&fit=crop',
-            'https://images.unsplash.com/photo-1585062418875-1ee1b0b12d36?w=300&h=200&fit=crop'
+            'https://images.unsplash.com/photo-1641661548431-87172338d58c?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGJsYWNrJTIwcGVwcGVyfGVufDB8fDB8fHww',
+            'https://images.unsplash.com/photo-1612708034948-466dcc56ebde?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8YmxhY2slMjBwZXBwZXJ8ZW58MHx8MHx8fDA%3D',
+            'https://images.unsplash.com/photo-1636488771211-9c635f5002e9?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGJsYWNrJTIwcGVwcGVyfGVufDB8fDB8fHww',
+          
           ],
           origin: 'Tanzania',
           grade: 'Choice, Export Quality',
@@ -191,16 +193,16 @@ export function CompanyProfileScreen() {
   items="center"
 >
   <XStack gap="$3" items="center">
-    <Button size="$3" circular fontSize={'$10'} icon={MoveLeft} />
+    <Button size="$3" bg={"transparent"} circular fontSize={'$10'} icon={ArrowLeft} />
     {/* Invisible button for symmetry */}
-    <Button size="$1" circular opacity={0} pointerEvents="none">
+    <Button size="$1" bg={"transparent"} circular opacity={0} pointerEvents="none">
       <Twitter />
     </Button>
   </XStack>
   <H2 fontSize={'$8'} text="center" >
     {company.name}
   </H2>
-  <Button size="$3" circular>
+  <Button size="$3" bg={"transparent"} circular>
     <Twitter />
   </Button>
 </XStack>
@@ -230,6 +232,14 @@ export function CompanyProfileScreen() {
       <YStack p="$4" pt="$6" gap="$3">
         <XStack items="center" gap="$2">
           <H2>{company.name}</H2>
+          <LinearGradient
+  colors={['#FBBB54', '#C88110']}
+  start={[0, 0]}
+  end={[0, 1]} // left to right
+  style={{ borderRadius: 5 }}
+>
+  <Button bg="transparent" size={'$1.5'}  fontSize={'$2'} color="white">PRO</Button>
+</LinearGradient>
         </XStack>
 
 
@@ -283,7 +293,7 @@ export function CompanyProfileScreen() {
                   key={category.id}
                   size="$3"
                   bg={
-                    selectedCategory === category.name ? "#D9D9D9" : "transparent"
+                     "transparent"
                   }
                   borderWidth={selectedCategory === category.name ? 1 : 0}
                   onPress={() => setSelectedCategory(category.name)}
@@ -300,10 +310,11 @@ export function CompanyProfileScreen() {
                     borderRadius="$2"
                   />
                   <Paragraph
-                    size={selectedCategory === category.name ? "$3" : "$2"}
+                    fontSize={selectedCategory === category.name ? "$3" : "$2"}
+                    
                     items="center"
                     numberOfLines={2}
-                    color={selectedCategory === category.name ? "#08100D" : "#6b7280"}
+                    color={selectedCategory === category.name ? "black" : "#6b7280"}
                   >
                     {category.name}
                   </Paragraph>
@@ -317,16 +328,16 @@ export function CompanyProfileScreen() {
         <ScrollView flex={1} p="$3">
           <YStack gap="$3">
             {selectedCategoryData?.products.map((product) => (
-              <Card key={product.id} padding="$0" borderRadius="$4" overflow="hidden">
+              <Card key={product.id} padding="$0" borderRadius="$4" overflow="hidden" bg={"transparenty"}>
                 <YStack position="relative">
-                  <ProductCarousel
-                    images={product.images}
-                    width="100%"
-                    height={160}
-                    showArrows={true}
-                    showIndicators={true}
-                    autoSlide={false}
-                  />
+                <ProductCarousel
+  images={product.images}
+  width={Platform.OS === 'web' ? 900 : 300}
+  height={Platform.OS === 'web' ? 300 : 200} // Responsive height
+  showArrows={true}
+  showIndicators={true}
+  autoSlide={false}
+/>
                   
                   {/* Product Info Overlay */}
                   <YStack
@@ -360,7 +371,7 @@ export function CompanyProfileScreen() {
                     </YStack>
 
                     <XStack justify="space-between" items="center" mt="$2">
-                      <Button size="$2"  color="#22c55e">
+                      <Button size="$2" bg={"transparent"} color="#22c55e">
                         View All Details
                       </Button>
                       <XStack gap="$1" items="center">
