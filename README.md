@@ -131,21 +131,14 @@ Built with **Tamagui** components for maximum reusability:
 - Asset management system for cross-platform images
 - Fallback Overview component with proper state management
 
-### Sample Data
-- Company profile: KMG Robust (spice trading company)
-- 3 Product categories with actual products:
-  - Dry Spices (Black Pepper)
-  - Seeds (White Pepper) 
-  - Pulses (Cloves)
-- 4 Empty categories ready for content
+
 
 ## 🚧 Pending Features
 
 ### Content Management
-- OverviewTab component (currently using fallback)
-- Posts tab content (social media style posts)
-- Certificates tab (company certifications display)
-- Representative tab (contact person details)
+- Posts tab content 
+- Certificates tab 
+- Representative tab 
 
 ### Data Integration
 - Real API integration (currently using mock data)
@@ -352,32 +345,4 @@ const categories = [
 - Build command: leave default setting
 - Output dir: leave default setting
 
-## 🤝 Contributing
 
-### Development Guidelines
-
-- Follow TypeScript best practices
-- Maintain cross-platform compatibility
-- Write responsive designs
-- Add proper error handling
-- Include tests for new features
-- Use Tamagui components consistently
-
-### How to Contribute
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- [Tamagui Starter Kit](https://github.com/tamagui/starter-free) for the foundation
-- [Tamagui](https://tamagui.dev/) for the amazing UI framework
-- [@FernandoTheRojo](https://twitter.com/fernandotherojo) for the Solito starter
-- [React Native](https://reactnative.dev/) for cross-platform development
