@@ -12,7 +12,7 @@ import {
   Avatar,
   Card,
 } from '@my/ui'
-import { ChevronLeft, MessageCircle, Eye, WheatOff, Twitter, Heart, MoveLeft, ArrowLeft } from '@tamagui/lucide-icons'
+import { ChevronLeft, MessageCircle, Eye, WheatOff, Twitter, Heart, MoveLeft, ArrowLeft, MoveRight, ChevronRight } from '@tamagui/lucide-icons'
 import { useState } from 'react'
 import { Platform } from 'react-native'
 import AssetImage from '../../components/AssetImages'
@@ -179,6 +179,16 @@ export function CompanyProfileScreen() {
   ]
 
   const selectedCategoryData = categories.find(cat => cat.name === selectedCategory)
+  // Cover image helper function
+const getCoverImage = (): number | { src: string } => {
+  if (Platform.OS === 'web') {
+    // For web, return object with src property
+    return { src: '/assets/coverimg.png' }
+  } else {
+    // For native, return the imported asset
+    return cover
+  }
+}
 
   return (
     <YStack flex={1} bg="$background">
@@ -209,24 +219,27 @@ export function CompanyProfileScreen() {
 
 
       {/* Cover Image */}
-      <YStack height={120} position="relative">
-        <Image
-          source={cover}
-          width="100%"
-          height="100%"
-        />
-        <YStack
-          position="absolute"
-          b={-40}
-          l="$4"
-          items="center"
-          gap="$2"
-        >
-          <Avatar circular size="$6" bg="$background" padding="$1">
-            <Avatar.Image src={company.logo} />
-          </Avatar>
-        </YStack>
-      </YStack>
+      {/* Cover Image */}
+{/* Cover Image */}
+{/* Cover Image */}
+<YStack height={120} position="relative">
+  <AssetImage
+    icon={getCoverImage()}
+    width={420}  // Use appropriate numeric width
+    height={120} // Match the container height
+  />
+  <YStack
+    position="absolute"
+    b={-40}
+    l="$4"
+    items="center"
+    gap="$2"
+  >
+    <Avatar circular size="$6" bg="$background" padding="$1">
+      <Avatar.Image src={company.logo} />
+    </Avatar>
+  </YStack>
+</YStack>
 
       {/* Company Info */}
       <YStack p="$4" pt="$6" gap="$3">
@@ -328,7 +341,7 @@ export function CompanyProfileScreen() {
         <ScrollView flex={1} p="$3">
           <YStack gap="$3">
             {selectedCategoryData?.products.map((product) => (
-              <Card key={product.id} padding="$0" borderRadius="$4" overflow="hidden" bg={"transparenty"}>
+              <Card key={product.id} padding="$0" borderRadius="$4" overflow="hidden" bg={"transparent"}>
                 <YStack position="relative">
                 <ProductCarousel
   images={product.images}
@@ -372,7 +385,7 @@ export function CompanyProfileScreen() {
 
                     <XStack justify="space-between" items="center" mt="$2">
                       <Button size="$2" bg={"transparent"} color="#22c55e">
-                        View All Details
+                        View All Details <ChevronRight size={"$1"}  items={"center"} color={"#22c55e"} />
                       </Button>
                       <XStack gap="$1" items="center">
                         <Eye size={12} color="white" />
@@ -404,7 +417,7 @@ export function CompanyProfileScreen() {
         borderTopColor="$borderColor"
       >
 
-        <Button bg="#E8F5E8" color="#12A150"><Heart/></Button>
+        <Button bg="#E8F5E8" color="#12A150"><Heart color={"#12A150"}/></Button>
         <Button
           size="$4"
           bg="#E8F5E8"
