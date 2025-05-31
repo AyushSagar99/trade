@@ -1,5 +1,4 @@
-'use client'
 
-import { HomeScreen } from 'app/features/home/screen'
+import { CompanyProfileScreen } from 'app/features/company/screen'
 
-export default HomeScreen
+export default CompanyProfileScreen

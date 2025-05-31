@@ -1,4 +1,3 @@
-// packages/app/features/company/screen.tsx - Clean Platform Approach
 "use client"
 import {
   YStack,
@@ -8,18 +7,17 @@ import {
   H4,
   Paragraph,
   Button,
-  Image,
   Avatar,
   Card,
 } from '@my/ui'
-import { ChevronLeft, MessageCircle, Eye, WheatOff, Twitter, Heart, MoveLeft, ArrowLeft, MoveRight, ChevronRight } from '@tamagui/lucide-icons'
-import { useState } from 'react'
+import {  Eye, Twitter, Heart,  ArrowLeft, ChevronRight } from '@tamagui/lucide-icons'
+import { useState, useEffect } from 'react'
 import { Platform } from 'react-native'
 import AssetImage from '../../components/AssetImages'
 import ProductCarousel from '../../components/ProductCarousel'
 import { LinearGradient } from '@tamagui/linear-gradient'
 
-// Import assets for native
+
 import drySpicesIcon from '../../assets/dryspices.png'
 import seedsIcon from '../../assets/seeds.png'
 import herbsIcon from '../../assets/herbs.png'
@@ -29,6 +27,8 @@ import cerealsIcon from '../../assets/cereals.png'
 import organicIcon from '../../assets/organic.png'
 import logo from "../../assets/logo300.png"
 import cover from "../../assets/coverimg.png"
+
+let OverviewTab: React.ComponentType<any> | null = null;
 
 interface Product {
   id: string
@@ -88,7 +88,6 @@ const styles = {
   companyInfo: {
     p: isWeb ? "$6" : "$4",
     pt: isWeb ? "$8" : "$6",
-    gap: isWeb ? "$4" : "$3",
   },
   proButton: {
     size: isWeb ? '$2' : '$1.5',
@@ -123,7 +122,6 @@ const styles = {
   }
 }
 
-// Asset mapping that works for both platforms
 const getAssetIcon = (assetName: string): number | { src: string } => {
   if (Platform.OS === 'web') {
     return { src: `/assets/${assetName}.png` }
@@ -141,7 +139,6 @@ const getAssetIcon = (assetName: string): number | { src: string } => {
   }
 }
 
-// Logo helper function
 const getLogo = (): string => {
   if (Platform.OS === 'web') {
     return '/assets/logo300.png'
@@ -150,13 +147,72 @@ const getLogo = (): string => {
   }
 }
 
-// Cover image helper function
 const getCoverImage = (): number | { src: string } => {
   if (Platform.OS === 'web') {
     return { src: '/assets/coverimg.png' }
   } else {
     return cover
   }
+}
+
+const FallbackOverview = ({ company }) => {
+  const [companyData, setCompanyData] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (company) {
+      setCompanyData(company)
+      setLoading(false)
+    }
+  }, [company])
+
+  useEffect(() => {
+    console.log('Company data updated:', companyData?.name)
+  }, [companyData])
+
+  if (loading) {
+    return (
+      <YStack flex={1} items="center" justify="center" p="$8">
+        <Paragraph color="#6b7280">Loading company overview...</Paragraph>
+      </YStack>
+    )
+  }
+
+  if (!companyData) {
+    return (
+      <YStack flex={1} items="center" justify="center" p="$8">
+        <Paragraph color="#6b7280">No company data available</Paragraph>
+      </YStack>
+    )
+  }
+
+  return (
+    <YStack 
+      flex={1} 
+      items="center" 
+      justify="center" 
+      p="$8"
+      bg={isWeb ? "#f9fafb" : undefined}
+    >
+      <H4 color="#6b7280" text="center" mb="$4">
+        {companyData.name} Overview
+      </H4>
+      <YStack gap="$3" maxWidth={isWeb ? 600 : undefined}>
+        <Paragraph color="#6b7280" text="center">
+          {companyData.name} is a leading spice trading company with {companyData.experience?.split(' ')[0]} years of experience in the industry.
+        </Paragraph>
+        <Paragraph color="#6b7280" text="center">
+          We specialize in high-quality dry spices, seeds, herbs, and organic products sourced from trusted suppliers worldwide.
+        </Paragraph>
+        <Paragraph color="#6b7280" text="center">
+          Revenue: {companyData.revenue} • Team: {companyData.employees}
+        </Paragraph>
+        <Paragraph color="#6b7280" text="center">
+          Our commitment to quality and customer satisfaction has made us a trusted partner for businesses globally.
+        </Paragraph>
+      </YStack>
+    </YStack>
+  )
 }
 
 export function CompanyProfileScreen() {
@@ -332,7 +388,6 @@ export function CompanyProfileScreen() {
                       autoSlide={true}
                     />
                     
-                    {/* Product Info Overlay */}
                     <YStack
                       b={0}
                       l={0}
@@ -464,8 +519,21 @@ export function CompanyProfileScreen() {
           </ScrollView>
         </XStack>
       )
-    } else {
-      // Empty state for other tabs
+    }
+    else if (activeTab === 'Overview') {
+      if (OverviewTab) {
+        try {
+          return <OverviewTab company={company} />
+        } catch (error) {
+          console.warn('Error rendering OverviewTab:', error);
+          return <FallbackOverview company={company} />
+        }
+      } else {
+        return <FallbackOverview company={company} />
+      }
+    } 
+    
+    else {
       return (
         <YStack 
           flex={1} 
@@ -489,7 +557,7 @@ export function CompanyProfileScreen() {
 
   return (
     <YStack flex={1} bg="$background" {...styles.container}>
-      {/* Header */}
+
       <XStack
         bg="$background"
         justify="space-between"
@@ -555,7 +623,7 @@ export function CompanyProfileScreen() {
       </YStack>
 
       {/* Company Info */}
-      <YStack {...styles.companyInfo}>
+      <YStack gap={isWeb ? "$4" : "$3"} {...styles.companyInfo}>
         <XStack items="center" gap={isWeb ? "$3" : "$2"}>
           <H2 fontSize={isWeb ? "$9" : undefined} fontWeight={isWeb ? "700" : undefined}>
             {company.name}
@@ -628,10 +696,8 @@ export function CompanyProfileScreen() {
         </ScrollView>
       </YStack>
 
-      {/* Main Content - Conditional based on active tab */}
       {renderTabContent()}
 
-      {/* Contact Button */}
       <XStack
         bg="$background"
         borderTopWidth={1}
@@ -643,18 +709,15 @@ export function CompanyProfileScreen() {
         <Button 
           bg="#E8F5E8" 
           color="#12A150"
-          size={isWeb ? "$4" : undefined}
           circular={isWeb}
         >
           <Heart color="#12A150"/>
         </Button>
         <Button
-          size={isWeb ? "$5" : "$4"}
           bg="#E8F5E8"
           color="#12A150"
           fontWeight={isWeb ? "700" : "600"}
           fontSize={isWeb ? "$5" : undefined}
-          borderRadius={isWeb ? "$5" : undefined}
         >
           {isWeb ? "Contact Company" : "Contact"}
         </Button>
